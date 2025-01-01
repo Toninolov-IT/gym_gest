@@ -1,17 +1,14 @@
 import Header from './components/Header.jsx';
 import Home from './views/Home.jsx';
-
+import GymAppBar from './components/GymAppBar.jsx';
 
 function App() {
 
   return (
     <>
       <main>
-        
-        <Header appName="To-Do List with React" />
-
+        <GymAppBar appName="Gym Gest" />
         <Home />
-
       </main>
     </>
   )
