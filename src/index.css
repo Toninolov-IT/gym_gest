@@ -1,0 +1,239 @@
+:root {
+    --primary-color: #2d41a7;
+    --secondary-color: #0b1d78;
+    --gray-color: #e4e4e4;
+    --white-color: #fff;
+    --black-color: #000;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+/* 2. Remove default margin */
+* {
+    margin: 0;
+    font-family: "DM Sans", sans-serif;
+}
+/* Typographic tweaks! 3. Add accessible line-height 4. Improve text rendering */
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+/* 5. Improve media defaults */
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+/* 6. Remove built-in form typography styles */
+input, button, textarea, select {
+    font: inherit;
+}
+/* 7. Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+/* 8. Create a root stacking context */
+#root, #__next {
+    isolation: isolate;
+}
+body {
+    background-color: var(--white-color);
+    color: var(--black-color);
+    height: 100%;
+    padding: 0;
+}
+.container {
+    max-width: 1080px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+}
+.btn {
+    border-radius: 8px;
+    height: 48px;
+    padding-inline: 18px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn.primary {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.btn.secondary {
+    background-color: var(--secondary-color);
+    color: var(--white-color);
+}
+.btn.gray {
+    background-color: var(--gray-color);
+    color: var(--black-color);
+}
+.close-btn {
+    width: 14px;
+    height: 14px;
+}
+.filters {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0;
+}
+.filters p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.filters .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 14px 0;
+    align-items: center;
+}
+.filters .badges .badge {
+    padding: 8px 7px;
+    background-color: var(--gray-color);
+    color: var(--black-color);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+.filters .badges .badge.selected {
+    background-color: #e42c5f;
+    color: var(--white-color);
+}
+.filters .clear {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    cursor: pointer;
+}
+.header {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 60px 0;
+}
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .header-side {
+    display: flex;
+    align-items: center;
+}
+.header .header-side h1 {
+    text-transform: capitalize;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 47px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.header .header-side .secondary {
+    margin-left: 12px;
+}
+
+.todo {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white-color);
+    color: var(--black-color);
+    padding: 25px;
+    border-radius: 12px;
+    position: relative;
+    -webkit-box-shadow: -2px 3px 29px -10px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: -2px 3px 29px -10px rgba(0, 0, 0, 0.6);
+    box-shadow: -2px 3px 29px -10px rgba(0, 0, 0, 0.6);
+    max-width: 650px;
+    margin-bottom: 20px;
+}
+.todo self.done:is(h3, p) {
+    text-decoration: line-through;
+}
+.todo button.erase {
+    background-color: transparent;
+    position: absolute;
+    right: 8px;
+    top: 5px;
+    font-size: 12px;
+    color: red;
+    cursor: pointer;
+    display: none;
+}
+.todo:hover button.erase {
+    display: block;
+}
+.todo h3 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.todo p {
+    margin-top: 18px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.todo .task-check {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 18px;
+}
+.todo .task-check label {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.todo .task-check input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 100%;
+    border: 0.77px solid #aeaeb2;
+    appearance: none;
+    cursor: pointer;
+}
+.todo .task-check input:checked {
+    background-color: #0a7aff;
+    border-color: #0a7aff;
+}
+.todo .task-check input:checked::before {
+    content: '';
+    display: block;
+    width: 4.5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
