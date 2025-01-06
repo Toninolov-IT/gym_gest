@@ -14,7 +14,18 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
+import {auth} from '../firebase/config.js';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged
+} from "firebase/auth";
+import { GoogleIcon, FacebookIcon } from './CustomIcons';
+import {useDispatch} from 'react-redux';
+import {setUser} from '../store/userSlice.js';
+import { Alert } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -59,30 +70,58 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn(props) {
+
+  const dispatch = useDispatch();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
+  const [resetPassword, setResetPassword] = React.useState(false);
+  const [resetPasswordMessage, setResetPasswordMessage] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [userCredentials, setUserCredentials] = React.useState({});
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(setUser({ id: user.localId, email: user.email }));
+      } else {
+        dispatch(setUser(null));
+      }
+    });
+    return () => unsubscribe();
+  }, [dispatch]);
+
+  const handleClickResetPassword = () => {
+    setResetPassword(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseResetPassword = () => {
+    setResetPassword(false);
   };
 
-  const handleSubmit = (event) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
+  function handleCredentials(e) {
+    const { name, value } = e;
+    setUserCredentials((prevCreds) => ({
+      ...prevCreds,
+      [name]: value,
+    }));
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (emailError || passwordError) {      
       return;
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    if(validateInputs) {
+      signInWithEmailAndPassword(auth, userCredentials.email, userCredentials.password)
+      .then((userCredential) => {
+        dispatch(setUser({id: userCredential.user.localId, email: userCredential.user.email}));
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+    }
   };
 
   const validateInputs = () => {
@@ -98,6 +137,7 @@ export default function SignIn(props) {
     } else {
       setEmailError(false);
       setEmailErrorMessage('');
+      handleCredentials(email)
     }
 
     if (!password.value || password.value.length < 6) {
@@ -107,10 +147,12 @@ export default function SignIn(props) {
     } else {
       setPasswordError(false);
       setPasswordErrorMessage('');
+      handleCredentials(password)
     }
 
     return isValid;
   };
+
 
   return (
     <>
@@ -173,7 +215,7 @@ export default function SignIn(props) {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <ForgotPassword open={open} handleClose={handleClose} />
+            <ForgotPassword open={resetPassword} handleClose={handleCloseResetPassword} setResetPassword={setResetPassword} setResetPasswordMessage={setResetPasswordMessage}/>
             <Button
               type="submit"
               fullWidth
@@ -185,12 +227,21 @@ export default function SignIn(props) {
             <Link
               component="button"
               type="button"
-              onClick={handleClickOpen}
+              onClick={handleClickResetPassword}
               variant="body2"
               sx={{ alignSelf: 'center' }}
             >
               Forgot your password?
             </Link>
+            {
+              resetPasswordMessage.length > 0 ?  
+              <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+               {resetPasswordMessage}
+              </Alert> 
+              : 
+              null
+            }
+           
           </Box>
           <Divider>or</Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
