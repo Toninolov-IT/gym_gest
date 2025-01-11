@@ -4,6 +4,7 @@ import { selectUsers } from './store/userSlice.js'
 import SignIn from './views/SignIn.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ForgotPassword from './views/ForgotPassword.jsx';
+import GymAppBar from './components/GymAppBar.jsx';
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
 
   return (
     <>
+    <GymAppBar appName="Gym Gest" user = {user}/>
       {user.currentUser ? 
         <BrowserRouter>
           <Routes>
