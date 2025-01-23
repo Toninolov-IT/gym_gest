@@ -50,6 +50,7 @@ body {
     max-width: 1080px;
     margin-inline: auto;
     padding-inline: 1rem;
+    margin-top: 2%;
 }
 .btn {
     border-radius: 8px;

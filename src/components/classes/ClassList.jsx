@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectClasses, fetchClasses } from '../../store/classSilce';
 import { useEffect } from 'react';
 import { Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Typography } from '@mui/material';
+import { Grid } from '@mui/system';
 function ClassList() {
     const dispatch = useDispatch();
 
@@ -21,13 +22,24 @@ function ClassList() {
                 {
                     classes.length ?  
                     <div className="classes-list">
-                    {classes.map(cls =>
-                        <Card sx={{ maxWidth: 345 }}>
-                        <CardMedia
-                            sx={{ height: 140 }}
-                            image="/static/images/cards/contemplative-reptile.jpg"
-                            title="green iguana"
-                        />
+                    <Grid container spacing={3}>
+                    {classes.map((cls, index) =>
+                     <Grid size="grow">
+                        <Card size={4}>
+                            {
+                            cls.type == 1 ?  
+                                <CardMedia
+                                    sx={{ height: 140 }}
+                                    image="public/openImage.png"
+                                    title="green iguana"
+                                /> 
+                            : cls.type == 2 ?
+                                <CardMedia
+                                sx={{ height: 140 }}
+                                image="public/classImage.png"
+                                title="green iguana"
+                                /> 
+                            : null}
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
                                 {cls.type == 1 ? "Open Box" : cls.type == 2 ? "Cross Class" : null}
@@ -40,7 +52,9 @@ function ClassList() {
                             <Button size="small">Iscriviti</Button>
                         </CardActions>
                         </Card>
+                      </Grid>
                     )}
+                    </Grid>
                     </div> 
                     : classStatus == 'loading' ? <CircularProgress /> :
                     <div className="books-list">
